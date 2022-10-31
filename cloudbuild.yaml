@@ -70,25 +70,25 @@ steps:
     id: 'unit-tests-top'
     waitFor: ['git-config']
 
-  - name: golang
-    env:
-      - 'PROJECT_ROOT=github.com/cyralinc/cyral-go-scim'
-      - 'GO111MODULE=on'
-    dir: mongo/v2
-    args:
-      - go
-      - test
-      - -v
-      - -race
-      - ./...
-    volumes:
-      - name: 'ssh'
-        path: /root/.ssh
-      - name: 'go-modules'
-        path: /go
-    id: 'unit-tests-mongo'
-    waitFor: ['unit-tests-top']
-
+#  - name: golang
+#    env:
+#      - 'PROJECT_ROOT=github.com/cyralinc/cyral-go-scim'
+#      - 'GO111MODULE=on'
+#    dir: mongo/v2
+#    args:
+#      - go
+#      - test
+#      - -v
+#      - -race
+#      - ./...
+#    volumes:
+#      - name: 'ssh'
+#        path: /root/.ssh
+#      - name: 'go-modules'
+#        path: /go
+#    id: 'unit-tests-mongo'
+#    waitFor: ['unit-tests-top']
+#
   - name: golang
     env:
       - 'PROJECT_ROOT=github.com/cyralinc/cyral-go-scim'
@@ -106,92 +106,91 @@ steps:
       - name: 'go-modules'
         path: /go
     id: 'unit-tests-pkg'
-    waitFor: ['unit-tests-mongo']
 
-  # Run security tests
-  - name: securego/gosec
-    env:
-      - 'GO111MODULE=on'
-    args:
-      - -exclude-dir=mongo
-      - -exclude-dir=pkg
-      - ./...
-    volumes:
-      - name: 'go-modules'
-        path: /go
-    id: 'security-tests-top'
-    waitFor: ['unit-tests-top']
-
-  # Run security tests
-  - name: securego/gosec
-    env:
-      - 'GO111MODULE=on'
-    dir: ./mongo/v2
-    args:
-      - ./...
-    volumes:
-      - name: 'go-modules'
-        path: /go
-    id: 'security-tests-mongo'
-    waitFor: ['unit-tests-mongo']
-
-  # Run security tests
-  - name: securego/gosec
-    env:
-      - 'GO111MODULE=on'
-    dir: ./pkg/v2
-    args:
-      - ./...
-    volumes:
-      - name: 'go-modules'
-        path: /go
-    id: 'security-tests-pkg'
-    waitFor: ['unit-tests-pkg']
-
-  # Run lint
-  - name: golangci/golangci-lint
-    env:
-      - 'GO111MODULE=on'
-    args:
-      - golangci-lint
-      - run
-      - --timeout=5m
-    volumes:
-      - name: 'go-modules'
-        path: /go
-    id: 'run-lint-top'
-    waitFor: ['unit-tests-top']
-
-  # Run lint
-  - name: golangci/golangci-lint
-    env:
-      - 'GO111MODULE=on'
-    dir: ./mongo/v2
-    args:
-      - golangci-lint
-      - run
-      - --timeout=5m
-    volumes:
-      - name: 'go-modules'
-        path: /go
-    id: 'run-lint-mongo'
-    waitFor: ['unit-tests-mongo']
-
-  # Run lint
-  - name: golangci/golangci-lint
-    env:
-      - 'GO111MODULE=on'
-    dir: ./pkg/v2
-    args:
-      - golangci-lint
-      - run
-      - --timeout=5m
-    volumes:
-      - name: 'go-modules'
-        path: /go
-    id: 'run-lint-pkg'
-    waitFor: ['unit-tests-pkg']
-
+#  # Run security tests
+#  - name: securego/gosec
+#    env:
+#      - 'GO111MODULE=on'
+#    args:
+#      - -exclude-dir=mongo
+#      - -exclude-dir=pkg
+#      - ./...
+#    volumes:
+#      - name: 'go-modules'
+#        path: /go
+#    id: 'security-tests-top'
+#    waitFor: ['unit-tests-top']
+#
+#  # Run security tests
+#  - name: securego/gosec
+#    env:
+#      - 'GO111MODULE=on'
+#    dir: ./mongo/v2
+#    args:
+#      - ./...
+#    volumes:
+#      - name: 'go-modules'
+#        path: /go
+#    id: 'security-tests-mongo'
+#    waitFor: ['unit-tests-mongo']
+#
+#  # Run security tests
+#  - name: securego/gosec
+#    env:
+#      - 'GO111MODULE=on'
+#    dir: ./pkg/v2
+#    args:
+#      - ./...
+#    volumes:
+#      - name: 'go-modules'
+#        path: /go
+#    id: 'security-tests-pkg'
+#    waitFor: ['unit-tests-pkg']
+#
+#  # Run lint
+#  - name: golangci/golangci-lint
+#    env:
+#      - 'GO111MODULE=on'
+#    args:
+#      - golangci-lint
+#      - run
+#      - --timeout=5m
+#    volumes:
+#      - name: 'go-modules'
+#        path: /go
+#    id: 'run-lint-top'
+#    waitFor: ['unit-tests-top']
+#
+#  # Run lint
+#  - name: golangci/golangci-lint
+#    env:
+#      - 'GO111MODULE=on'
+#    dir: ./mongo/v2
+#    args:
+#      - golangci-lint
+#      - run
+#      - --timeout=5m
+#    volumes:
+#      - name: 'go-modules'
+#        path: /go
+#    id: 'run-lint-mongo'
+#    waitFor: ['unit-tests-mongo']
+#
+#  # Run lint
+#  - name: golangci/golangci-lint
+#    env:
+#      - 'GO111MODULE=on'
+#    dir: ./pkg/v2
+#    args:
+#      - golangci-lint
+#      - run
+#      - --timeout=5m
+#    volumes:
+#      - name: 'go-modules'
+#        path: /go
+#    id: 'run-lint-pkg'
+#    waitFor: ['unit-tests-pkg']
+#
 # Cut release(s) if VERSIONS file has changed. This script just tags,
   - name: 'gcr.io/cloud-builders/git'
     entrypoint: 'bash'
