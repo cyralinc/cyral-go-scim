@@ -4,6 +4,9 @@ import (
 	"fmt"
 )
 
+// FromValue returns a filter that represents attribute equality w.r.t. one of
+// the list of raw composite value given to it. Each element of the list must
+// be of type map[string]interface{}.
 func FromValueList(list []interface{}) (*Expression, error) {
 	if len(list) == 0 {
 		return nil, nil

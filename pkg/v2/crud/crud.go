@@ -65,12 +65,12 @@ func Delete(resource *prop.Resource, path string, value interface{}) error {
 		case []interface{}:
 			query, err = expr.FromValueList(v)
 		default:
-			return fmt.Errorf("values (%v) for a delete operation is of unsupported type %T",
-				value, value)
+			return fmt.Errorf("%w: values (%v) for a delete operation is of unsupported type %T",
+				spec.ErrInvalidValue, value, value)
 		}
 	}
 	if err != nil {
-		return err
+		return fmt.Errorf("%w: %v", spec.ErrInvalidValue, err)
 	}
 	head = head.Append(query)
 	return defaultTraverse(

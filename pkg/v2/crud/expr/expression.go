@@ -110,13 +110,12 @@ func (e *Expression) Append(expr *Expression) *Expression {
 	if e == nil {
 		return expr
 	}
-	head := e
-	last := head
+	last := e
 	for last.next != nil {
 		last = last.next
 	}
 	last.next = expr
-	return head
+	return e
 }
 
 // Walk traverses the hybrid linked list / tree structure connected to the current step. cb is the callback function invoked
