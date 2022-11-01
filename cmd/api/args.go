@@ -1,7 +1,7 @@
 package api
 
 import (
-	"github.com/imulab/go-scim/cmd/internal/args"
+	"github.com/cyralinc/cyral-go-scim/cmd/internal/args"
 	"github.com/urfave/cli/v2"
 )
 

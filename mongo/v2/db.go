@@ -3,11 +3,11 @@ package v2
 import (
 	"context"
 	"fmt"
-	"github.com/imulab/go-scim/pkg/v2/crud"
-	"github.com/imulab/go-scim/pkg/v2/crud/expr"
-	"github.com/imulab/go-scim/pkg/v2/db"
-	"github.com/imulab/go-scim/pkg/v2/prop"
-	"github.com/imulab/go-scim/pkg/v2/spec"
+	"github.com/cyralinc/cyral-go-scim/pkg/v2/crud"
+	"github.com/cyralinc/cyral-go-scim/pkg/v2/crud/expr"
+	"github.com/cyralinc/cyral-go-scim/pkg/v2/db"
+	"github.com/cyralinc/cyral-go-scim/pkg/v2/prop"
+	"github.com/cyralinc/cyral-go-scim/pkg/v2/spec"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -27,7 +27,7 @@ import (
 // it will be returned. It is expected by downstream calls to perform a pre-sanitation on the parameters or perform
 // a post-guard operation to ensure no sensitive information is leaked.
 //
-// The "github.com/imulab/go-scim/pkg/v2/json" provides a post-guard operation in its serialization function to ensure
+// The "github.com/cyralinc/cyral-go-scim/pkg/v2/json" provides a post-guard operation in its serialization function to ensure
 // returned=never parameters are never leaked. When used with this database, the only situation needs to be worried
 // about is that returned=always parameter may not be returned at all when included intentionally in the "attributes"
 // parameter list. This behaviour might be acceptable. If not, pre-sanitation of the projection list is required.

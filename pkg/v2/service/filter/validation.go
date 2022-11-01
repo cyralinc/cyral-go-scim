@@ -6,10 +6,10 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/imulab/go-scim/pkg/v2/annotation"
-	"github.com/imulab/go-scim/pkg/v2/db"
-	"github.com/imulab/go-scim/pkg/v2/prop"
-	"github.com/imulab/go-scim/pkg/v2/spec"
+	"github.com/cyralinc/cyral-go-scim/pkg/v2/annotation"
+	"github.com/cyralinc/cyral-go-scim/pkg/v2/db"
+	"github.com/cyralinc/cyral-go-scim/pkg/v2/prop"
+	"github.com/cyralinc/cyral-go-scim/pkg/v2/spec"
 )
 
 // ValidationFilter returns a ByProperty that performs validation on each property. The validation carried out are

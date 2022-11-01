@@ -2,7 +2,7 @@ package prop
 
 import (
 	"fmt"
-	"github.com/imulab/go-scim/pkg/v2/spec"
+	"github.com/cyralinc/cyral-go-scim/pkg/v2/spec"
 )
 
 // NewDecimal creates a new decimal property associated with attribute.

@@ -1,6 +1,6 @@
 package prop
 
-import "github.com/imulab/go-scim/pkg/v2/spec"
+import "github.com/cyralinc/cyral-go-scim/pkg/v2/spec"
 
 // Visitor defines behaviour for implementations to react to a passive Property structure traversal. It shall be used
 // in cases where caller does not have knowledge of resource structure and has to rely on a spontaneous DFS traversal.

@@ -1,6 +1,6 @@
 package prop
 
-import "github.com/imulab/go-scim/pkg/v2/spec"
+import "github.com/cyralinc/cyral-go-scim/pkg/v2/spec"
 
 // NewResource creates a resource prototype of the attributes defined in the resource type, along with the core SCIM attributes.
 func NewResource(resourceType *spec.ResourceType) *Resource {

@@ -1,7 +1,7 @@
 package prop
 
 import (
-	"github.com/imulab/go-scim/pkg/v2/spec"
+	"github.com/cyralinc/cyral-go-scim/pkg/v2/spec"
 )
 
 // Property holds a piece of data and is describe by an Attribute. The data requirement of the property is described by

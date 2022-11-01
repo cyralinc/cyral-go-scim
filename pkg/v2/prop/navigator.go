@@ -2,7 +2,7 @@ package prop
 
 import (
 	"fmt"
-	"github.com/imulab/go-scim/pkg/v2/spec"
+	"github.com/cyralinc/cyral-go-scim/pkg/v2/spec"
 )
 
 // Navigate returns a navigator that allows caller to freely navigate the property structure and maintains the navigation

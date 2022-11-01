@@ -2,9 +2,9 @@ package filter
 
 import (
 	"context"
-	"github.com/imulab/go-scim/pkg/v2/annotation"
-	"github.com/imulab/go-scim/pkg/v2/prop"
-	"github.com/imulab/go-scim/pkg/v2/spec"
+	"github.com/cyralinc/cyral-go-scim/pkg/v2/annotation"
+	"github.com/cyralinc/cyral-go-scim/pkg/v2/prop"
+	"github.com/cyralinc/cyral-go-scim/pkg/v2/spec"
 )
 
 // ReadOnlyFilter returns a ByProperty filter that supports resetting and copying values for readOnly properties that

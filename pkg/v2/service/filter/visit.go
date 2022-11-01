@@ -2,8 +2,8 @@ package filter
 
 import (
 	"context"
-	"github.com/imulab/go-scim/pkg/v2/prop"
-	"github.com/imulab/go-scim/pkg/v2/spec"
+	"github.com/cyralinc/cyral-go-scim/pkg/v2/prop"
+	"github.com/cyralinc/cyral-go-scim/pkg/v2/spec"
 )
 
 // Visit performs a DFS visit on the resource and sequentially invokes the ByProperty filters on each visited property

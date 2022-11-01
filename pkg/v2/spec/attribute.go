@@ -3,8 +3,8 @@ package spec
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/imulab/go-scim/pkg/v2/annotation"
-	"github.com/imulab/go-scim/pkg/v2/spec/internal"
+	"github.com/cyralinc/cyral-go-scim/pkg/v2/annotation"
+	"github.com/cyralinc/cyral-go-scim/pkg/v2/spec/internal"
 	"reflect"
 	"sort"
 	"strings"
@@ -58,7 +58,7 @@ import (
 // As of now, Attribute is parsed to and from JSON using special adapter structures that exposes and hides certain fields.
 // This design is subject to change when we move to treat Schema as just another resource.
 // See also:
-//	issue https://github.com/imulab/go-scim/issues/40
+//	issue https://github.com/cyralinc/cyral-go-scim/issues/40
 type Attribute struct {
 	name            string
 	description     string

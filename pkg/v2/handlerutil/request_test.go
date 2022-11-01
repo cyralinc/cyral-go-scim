@@ -2,9 +2,9 @@ package handlerutil
 
 import (
 	"errors"
-	"github.com/imulab/go-scim/pkg/v2/crud"
-	"github.com/imulab/go-scim/pkg/v2/service"
-	"github.com/imulab/go-scim/pkg/v2/spec"
+	"github.com/cyralinc/cyral-go-scim/pkg/v2/crud"
+	"github.com/cyralinc/cyral-go-scim/pkg/v2/service"
+	"github.com/cyralinc/cyral-go-scim/pkg/v2/spec"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"

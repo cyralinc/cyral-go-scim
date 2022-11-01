@@ -1,7 +1,7 @@
 package prop
 
 import (
-	"github.com/imulab/go-scim/pkg/v2/spec"
+	"github.com/cyralinc/cyral-go-scim/pkg/v2/spec"
 )
 
 // NewProperty creates a new property of any legal SCIM type

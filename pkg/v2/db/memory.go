@@ -3,9 +3,9 @@ package db
 import (
 	"context"
 	"fmt"
-	"github.com/imulab/go-scim/pkg/v2/crud"
-	"github.com/imulab/go-scim/pkg/v2/prop"
-	"github.com/imulab/go-scim/pkg/v2/spec"
+	"github.com/cyralinc/cyral-go-scim/pkg/v2/crud"
+	"github.com/cyralinc/cyral-go-scim/pkg/v2/prop"
+	"github.com/cyralinc/cyral-go-scim/pkg/v2/spec"
 	"sync"
 )
 

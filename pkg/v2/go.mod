@@ -1,4 +1,4 @@
-module github.com/imulab/go-scim/pkg/v2
+module github.com/cyralinc/cyral-go-scim/pkg/v2
 
 go 1.13
 

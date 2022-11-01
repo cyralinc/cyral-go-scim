@@ -1,13 +1,13 @@
-module github.com/imulab/go-scim
+module github.com/cyralinc/cyral-go-scim
 
 go 1.13
 
 require (
 	github.com/cenkalti/backoff v2.2.1+incompatible
 	github.com/cenkalti/backoff/v4 v4.0.0
+	github.com/cyralinc/cyral-go-scim/mongo/v2 v2.0.0
+	github.com/cyralinc/cyral-go-scim/pkg/v2 v2.0.0
 	github.com/google/go-cmp v0.4.0 // indirect
-	github.com/imulab/go-scim/mongo/v2 v2.0.0
-	github.com/imulab/go-scim/pkg/v2 v2.0.0
 	github.com/julienschmidt/httprouter v1.3.0
 	github.com/opencontainers/runc v1.0.0-rc9 // indirect
 	github.com/ory/dockertest v3.3.5+incompatible
@@ -23,6 +23,6 @@ require (
 	gopkg.in/yaml.v2 v2.2.7 // indirect
 )
 
-replace github.com/imulab/go-scim/mongo/v2 => ./mongo/v2
+replace github.com/cyralinc/cyral-go-scim/mongo/v2 => ./mongo/v2
 
-replace github.com/imulab/go-scim/pkg/v2 => ./pkg/v2
+replace github.com/cyralinc/cyral-go-scim/pkg/v2 => ./pkg/v2

@@ -8,8 +8,8 @@ import (
 	"unicode/utf16"
 	"unicode/utf8"
 
-	"github.com/imulab/go-scim/pkg/v2/prop"
-	"github.com/imulab/go-scim/pkg/v2/spec"
+	"github.com/cyralinc/cyral-go-scim/pkg/v2/prop"
+	"github.com/cyralinc/cyral-go-scim/pkg/v2/spec"
 )
 
 // Deserialize is the entry point of JSON deserialization. Unmarshal the JSON input bytes into a pre-prepared unassigned
@@ -521,7 +521,7 @@ func (d *deserializeState) isFalseInMicrosoftFormat(start, end int) bool {
 
 // Microsoft Azure Directory passes boolean values in as "True" and "False". In order to support this popular
 // use case, we include a hack here temporarily for this issue only. Thanks to @plamenGo.
-// See https://github.com/imulab/go-scim/pull/67
+// See https://github.com/cyralinc/cyral-go-scim/pull/67
 func (d *deserializeState) tryHackForMicrosoftADBooleanIssue(p prop.Property, start, end int) (bool, error) {
 	if strings.ToLower(p.Attribute().Path()) != "active" {
 		// We are only hacking for the "active" property for now.

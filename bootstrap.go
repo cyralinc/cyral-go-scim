@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/imulab/go-scim/cmd/api"
-	"github.com/imulab/go-scim/cmd/groupsync"
+	"github.com/cyralinc/cyral-go-scim/cmd/api"
+	"github.com/cyralinc/cyral-go-scim/cmd/groupsync"
 	"github.com/urfave/cli/v2"
 	"log"
 	"os"

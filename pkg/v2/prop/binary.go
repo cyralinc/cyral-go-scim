@@ -3,7 +3,7 @@ package prop
 import (
 	"encoding/base64"
 	"fmt"
-	"github.com/imulab/go-scim/pkg/v2/spec"
+	"github.com/cyralinc/cyral-go-scim/pkg/v2/spec"
 	"hash/fnv"
 )
 

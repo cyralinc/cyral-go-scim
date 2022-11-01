@@ -2,8 +2,8 @@ package spec
 
 import (
 	"encoding/json"
-	"github.com/imulab/go-scim/pkg/v2/annotation"
-	"github.com/imulab/go-scim/pkg/v2/spec/internal"
+	"github.com/cyralinc/cyral-go-scim/pkg/v2/annotation"
+	"github.com/cyralinc/cyral-go-scim/pkg/v2/spec/internal"
 )
 
 // Resource type models the SCIM resource type. It is a collection of one main schema and zero or more schema extensions
@@ -35,7 +35,7 @@ import (
 // ResourceType is currently being parsed to and from JSON using special adapters. This design is subject to change
 // when we move to treat ResourceType as just another resource.
 // See also:
-//	issue https://github.com/imulab/go-scim/issues/40
+//	issue https://github.com/cyralinc/cyral-go-scim/issues/40
 type ResourceType struct {
 	id          string
 	name        string

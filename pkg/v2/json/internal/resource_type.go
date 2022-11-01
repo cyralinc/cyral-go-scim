@@ -1,8 +1,8 @@
 package internal
 
 import (
-	"github.com/imulab/go-scim/pkg/v2/prop"
-	"github.com/imulab/go-scim/pkg/v2/spec"
+	"github.com/cyralinc/cyral-go-scim/pkg/v2/prop"
+	"github.com/cyralinc/cyral-go-scim/pkg/v2/spec"
 )
 
 // SerializableResourceType is the json.Serializable wrapper for spec.ResourceType.

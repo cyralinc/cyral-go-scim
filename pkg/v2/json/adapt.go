@@ -1,8 +1,8 @@
 package json
 
 import (
-	"github.com/imulab/go-scim/pkg/v2/json/internal"
-	"github.com/imulab/go-scim/pkg/v2/spec"
+	"github.com/cyralinc/cyral-go-scim/pkg/v2/json/internal"
+	"github.com/cyralinc/cyral-go-scim/pkg/v2/spec"
 )
 
 // SchemaToSerializable returns a Serializable wrapper for a schema so it can be used to call json.Serialize

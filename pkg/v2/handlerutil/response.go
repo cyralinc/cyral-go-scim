@@ -3,10 +3,10 @@ package handlerutil
 import (
 	"encoding/json"
 	"errors"
-	scimjson "github.com/imulab/go-scim/pkg/v2/json"
-	"github.com/imulab/go-scim/pkg/v2/prop"
-	"github.com/imulab/go-scim/pkg/v2/service"
-	"github.com/imulab/go-scim/pkg/v2/spec"
+	scimjson "github.com/cyralinc/cyral-go-scim/pkg/v2/json"
+	"github.com/cyralinc/cyral-go-scim/pkg/v2/prop"
+	"github.com/cyralinc/cyral-go-scim/pkg/v2/service"
+	"github.com/cyralinc/cyral-go-scim/pkg/v2/spec"
 	"net/http"
 )
 
