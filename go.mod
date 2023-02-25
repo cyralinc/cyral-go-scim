@@ -19,7 +19,7 @@ require (
 	github.com/urfave/cli/v2 v2.1.1
 	go.mongodb.org/mongo-driver v1.2.1
 	golang.org/x/sync v0.0.0-20190911185100-cd5d95a43a6e
-	golang.org/x/sys v0.0.0-20200121082415-34d275377bf9 // indirect
+	golang.org/x/sys v0.1.0 // indirect
 	gopkg.in/yaml.v2 v2.2.7 // indirect
 )
 
