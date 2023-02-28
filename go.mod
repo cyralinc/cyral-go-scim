@@ -5,11 +5,10 @@ go 1.13
 require (
 	github.com/cenkalti/backoff v2.2.1+incompatible
 	github.com/cenkalti/backoff/v4 v4.0.0
-	github.com/google/go-cmp v0.4.0 // indirect
 	github.com/imulab/go-scim/mongo/v2 v2.0.0
 	github.com/imulab/go-scim/pkg/v2 v2.0.0
 	github.com/julienschmidt/httprouter v1.3.0
-	github.com/opencontainers/runc v1.0.0-rc9 // indirect
+	github.com/opencontainers/runc v1.1.2 // indirect
 	github.com/ory/dockertest v3.3.5+incompatible
 	github.com/rs/zerolog v1.17.2
 	github.com/satori/go.uuid v1.2.0
