@@ -35,5 +35,3 @@ require (
 replace github.com/imulab/go-scim/pkg/v2 => ../../pkg/v2
 
 go 1.13
-
-replace github.com/imulab/go-scim/mongo/v2 => ./
