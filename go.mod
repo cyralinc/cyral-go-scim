@@ -13,7 +13,7 @@ require (
 	github.com/mattn/go-isatty v0.0.17 // indirect
 	github.com/ory/dockertest v3.3.5+incompatible
 	github.com/rs/zerolog v1.29.0
-	github.com/streadway/amqp v1.0.0
+	github.com/streadway/amqp v1.1.0
 	github.com/stretchr/testify v1.8.2
 	github.com/urfave/cli/v2 v2.25.7
 	go.mongodb.org/mongo-driver v1.11.3
