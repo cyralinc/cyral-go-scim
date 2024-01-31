@@ -16,7 +16,7 @@ require (
 	github.com/streadway/amqp v1.0.0
 	github.com/stretchr/testify v1.8.2
 	github.com/urfave/cli/v2 v2.25.7
-	go.mongodb.org/mongo-driver v1.11.3
+	go.mongodb.org/mongo-driver v1.13.1
 	golang.org/x/sync v0.3.0
 )
 
