@@ -9,10 +9,8 @@ require (
 	github.com/imulab/go-scim/mongo/v2 v2.0.0
 	github.com/imulab/go-scim/pkg/v2 v2.0.0
 	github.com/julienschmidt/httprouter v1.3.0
-	github.com/mattn/go-colorable v0.1.13 // indirect
-	github.com/mattn/go-isatty v0.0.17 // indirect
 	github.com/ory/dockertest v3.3.5+incompatible
-	github.com/rs/zerolog v1.29.0
+	github.com/rs/zerolog v1.32.0
 	github.com/streadway/amqp v1.0.0
 	github.com/stretchr/testify v1.8.2
 	github.com/urfave/cli/v2 v2.25.7
