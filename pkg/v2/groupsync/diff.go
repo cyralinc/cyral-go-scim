@@ -53,6 +53,8 @@ func Compare(before *prop.Resource, after *prop.Resource) *Diff {
 	for k := range afterIds {
 		if _, ok := beforeIds[k]; !ok {
 			diff.addJoined(k)
+		} else {
+			diff.addStayed(k)
 		}
 	}
 	return diff
@@ -61,6 +63,7 @@ func Compare(before *prop.Resource, after *prop.Resource) *Diff {
 // Diff reports the difference between the members of two group resources.
 type Diff struct {
 	joined map[string]struct{}
+	stayed map[string]struct{}
 	left   map[string]struct{}
 }
 
@@ -69,6 +72,13 @@ func (d *Diff) addJoined(id string) {
 		d.joined = map[string]struct{}{}
 	}
 	d.joined[id] = struct{}{}
+}
+
+func (d *Diff) addStayed(id string) {
+	if d.stayed == nil {
+		d.stayed = map[string]struct{}{}
+	}
+	d.stayed[id] = struct{}{}
 }
 
 func (d *Diff) addLeft(id string) {
@@ -85,6 +95,13 @@ func (d *Diff) ForEachJoined(callback func(id string)) {
 	}
 }
 
+// ForEachStayed iterates all member ids that stayed in the group and invoke the callback.
+func (d *Diff) ForEachStayed(callback func(id string)) {
+	for k := range d.stayed {
+		callback(k)
+	}
+}
+
 // ForEachLeft iterates all member ids that left the group and invoke the callback.
 func (d *Diff) ForEachLeft(callback func(id string)) {
 	for k := range d.left {
@@ -95,6 +112,11 @@ func (d *Diff) ForEachLeft(callback func(id string)) {
 // CountJoined returns the total number of new members that joined the group.
 func (d *Diff) CountJoined() int {
 	return len(d.joined)
+}
+
+// CountStayed returns the total number of members that stayed in the group.
+func (d *Diff) CountStayed() int {
+	return len(d.stayed)
 }
 
 // CountLeft returns the total number of members that just left the group.
