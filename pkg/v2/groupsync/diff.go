@@ -21,7 +21,7 @@ func Compare(before *prop.Resource, after *prop.Resource) *Diff {
 	}
 
 	diff := new(Diff)
-	diff.relevantPropertyChanged = compareRelevantProperties(before, after)
+	diff.propertiesChanged = propertiesChanged(before, after)
 
 	var (
 		beforeIds = map[string]struct{}{}
@@ -63,9 +63,9 @@ func Compare(before *prop.Resource, after *prop.Resource) *Diff {
 	return diff
 }
 
-// compareRelevantProperties compare if relevant group properties (e.g. displayName) were changed,
+// propertiesChanged compare if relevant group properties (e.g. displayName) were changed,
 // returning true in this case, or false otherwise.
-func compareRelevantProperties(before *prop.Resource, after *prop.Resource) bool {
+func propertiesChanged(before *prop.Resource, after *prop.Resource) bool {
 	// If group was created (before==nil) or deleted (after==nil), there's no relevant property
 	// change, so we return false.
 	if before == nil || after == nil {
@@ -87,10 +87,10 @@ type Diff struct {
 	joined map[string]struct{}
 	stayed map[string]struct{}
 	left   map[string]struct{}
-	// relevantPropertyChanged indicates if relevant group properties (e.g. displayName) were changed.
+	// propertiesChanged indicates if relevant group properties (e.g. displayName) were changed.
 	// This is relevant to only trigger updates for stayed users if relevant group changes need to be
 	// updated.
-	relevantPropertyChanged bool
+	propertiesChanged bool
 }
 
 func (d *Diff) addJoined(id string) {
@@ -150,9 +150,9 @@ func (d *Diff) CountLeft() int {
 	return len(d.left)
 }
 
-// IsRelevantPropertyChanged indicates if relevant group properties (e.g. displayName) were changed.
+// PropertiesChanged indicates if relevant group properties (e.g. displayName) were changed.
 // This is relevant to only trigger updates for stayed users if relevant group changes need to be
 // updated.
-func (d *Diff) IsRelevantPropertyChanged() bool {
-	return d.relevantPropertyChanged
+func (d *Diff) PropertiesChanged() bool {
+	return d.propertiesChanged
 }

@@ -78,7 +78,7 @@ func (s *CompareTestSuite) TestCompare() {
 				assert.Equal(t, 0, diff.CountLeft())
 				assert.Equal(t, 2, diff.CountStayed())
 				assert.Equal(t, 0, diff.CountJoined())
-				assert.False(t, diff.IsRelevantPropertyChanged())
+				assert.False(t, diff.PropertiesChanged())
 			},
 		},
 		{
@@ -126,7 +126,7 @@ func (s *CompareTestSuite) TestCompare() {
 				assert.Equal(t, 1, diff.CountJoined())
 				_, m2Joined := diff.joined["m2"]
 				assert.True(t, m2Joined)
-				assert.False(t, diff.IsRelevantPropertyChanged())
+				assert.False(t, diff.PropertiesChanged())
 			},
 		},
 		{
@@ -174,7 +174,7 @@ func (s *CompareTestSuite) TestCompare() {
 				assert.Equal(t, 0, diff.CountJoined())
 				_, m1Left := diff.left["m1"]
 				assert.True(t, m1Left)
-				assert.False(t, diff.IsRelevantPropertyChanged())
+				assert.False(t, diff.PropertiesChanged())
 			},
 		},
 		{
@@ -225,7 +225,7 @@ func (s *CompareTestSuite) TestCompare() {
 				assert.Equal(t, 0, diff.CountLeft())
 				assert.Equal(t, 2, diff.CountStayed())
 				assert.Equal(t, 0, diff.CountJoined())
-				assert.True(t, diff.IsRelevantPropertyChanged())
+				assert.True(t, diff.PropertiesChanged())
 			},
 		},
 	}
