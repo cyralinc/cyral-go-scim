@@ -5,19 +5,23 @@ import (
 )
 
 const (
-	fieldMembers = "members"
-	fieldValue   = "value"
+	fieldDisplayName = "displayName"
+	fieldMembers     = "members"
+	fieldValue       = "value"
 )
 
-// Compare compares the two snapshots of two group resources before and after the
-// modification and reports their differences in membership. At least one
-// of before and after should be non-nil. When before is nil, all members
-// of the after resource are considered to have just joined; when after
-// is nil, all members of the before resource are considered to have just left.
+// Compare compares the two snapshots of two group resources before and after the modification and
+// reports their differences in membership and whether relevant group properties (e.g. displayName)
+// were changed. At least one of before and after should be non-nil. When before is nil, all
+// members of the after resource are considered to have just joined; when after is nil, all members
+// of the before resource are considered to have just left.
 func Compare(before *prop.Resource, after *prop.Resource) *Diff {
 	if before == nil && after == nil {
 		panic("at least one of before and after should be non-nil")
 	}
+
+	diff := new(Diff)
+	diff.relevantPropertyChanged = compareRelevantProperties(before, after)
 
 	var (
 		beforeIds = map[string]struct{}{}
@@ -44,7 +48,6 @@ func Compare(before *prop.Resource, after *prop.Resource) *Diff {
 		})
 	}
 
-	diff := new(Diff)
 	for k := range beforeIds {
 		if _, ok := afterIds[k]; !ok {
 			diff.addLeft(k)
@@ -60,11 +63,28 @@ func Compare(before *prop.Resource, after *prop.Resource) *Diff {
 	return diff
 }
 
+// compareRelevantProperties compare if relevant group properties (e.g. displayName) were changed,
+// returning true in this case, or false otherwise.
+func compareRelevantProperties(before *prop.Resource, after *prop.Resource) bool {
+	displayNameBefore, _ := before.RootProperty().ChildAtIndex(fieldDisplayName)
+	displayNameAfter, _ := after.RootProperty().ChildAtIndex(fieldDisplayName)
+
+	if displayNameBefore != nil && displayNameAfter != nil {
+		return displayNameBefore.Raw().(string) != displayNameAfter.Raw().(string)
+	}
+
+	return displayNameBefore != displayNameAfter
+}
+
 // Diff reports the difference between the members of two group resources.
 type Diff struct {
 	joined map[string]struct{}
 	stayed map[string]struct{}
 	left   map[string]struct{}
+	// relevantPropertyChanged indicates if relevant group properties (e.g. displayName) were changed.
+	// This is relevant to only trigger updates for stayed users if relevant group changes need to be
+	// updated.
+	relevantPropertyChanged bool
 }
 
 func (d *Diff) addJoined(id string) {
@@ -122,4 +142,11 @@ func (d *Diff) CountStayed() int {
 // CountLeft returns the total number of members that just left the group.
 func (d *Diff) CountLeft() int {
 	return len(d.left)
+}
+
+// IsRelevantPropertyChanged indicates if relevant group properties (e.g. displayName) were changed.
+// This is relevant to only trigger updates for stayed users if relevant group changes need to be
+// updated.
+func (d *Diff) IsRelevantPropertyChanged() bool {
+	return d.relevantPropertyChanged
 }
