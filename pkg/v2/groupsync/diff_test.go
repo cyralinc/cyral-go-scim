@@ -2,14 +2,15 @@ package groupsync
 
 import (
 	"encoding/json"
+	"io/ioutil"
+	"os"
+	"testing"
+
 	"github.com/imulab/go-scim/pkg/v2/prop"
 	"github.com/imulab/go-scim/pkg/v2/spec"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
-	"io/ioutil"
-	"os"
-	"testing"
 )
 
 func TestCompare(t *testing.T) {
@@ -34,8 +35,9 @@ func (s *CompareTestSuite) TestCompare() {
 			getBefore: func(t *testing.T) *prop.Resource {
 				r := prop.NewResource(s.resourceType)
 				assert.False(t, r.Navigator().Replace(map[string]interface{}{
-					"schemas": []interface{}{"urn:ietf:params:scim:schemas:core:2.0:Group"},
-					"id":      "foobar",
+					"schemas":     []interface{}{"urn:ietf:params:scim:schemas:core:2.0:Group"},
+					"id":          "foobar",
+					"displayName": "GroupName",
 					"members": []interface{}{
 						map[string]interface{}{
 							"value":   "m1",
@@ -54,8 +56,9 @@ func (s *CompareTestSuite) TestCompare() {
 			getAfter: func(t *testing.T) *prop.Resource {
 				r := prop.NewResource(s.resourceType)
 				assert.False(t, r.Navigator().Replace(map[string]interface{}{
-					"schemas": []interface{}{"urn:ietf:params:scim:schemas:core:2.0:Group"},
-					"id":      "foobar",
+					"schemas":     []interface{}{"urn:ietf:params:scim:schemas:core:2.0:Group"},
+					"id":          "foobar",
+					"displayName": "GroupName",
 					"members": []interface{}{
 						map[string]interface{}{
 							"value":   "m2",
@@ -73,7 +76,9 @@ func (s *CompareTestSuite) TestCompare() {
 			},
 			expect: func(t *testing.T, diff *Diff) {
 				assert.Equal(t, 0, diff.CountLeft())
+				assert.Equal(t, 2, diff.CountStayed())
 				assert.Equal(t, 0, diff.CountJoined())
+				assert.False(t, diff.IsRelevantPropertyChanged())
 			},
 		},
 		{
@@ -81,8 +86,9 @@ func (s *CompareTestSuite) TestCompare() {
 			getBefore: func(t *testing.T) *prop.Resource {
 				r := prop.NewResource(s.resourceType)
 				assert.False(t, r.Navigator().Replace(map[string]interface{}{
-					"schemas": []interface{}{"urn:ietf:params:scim:schemas:core:2.0:Group"},
-					"id":      "foobar",
+					"schemas":     []interface{}{"urn:ietf:params:scim:schemas:core:2.0:Group"},
+					"id":          "foobar",
+					"displayName": "GroupName",
 					"members": []interface{}{
 						map[string]interface{}{
 							"value":   "m1",
@@ -96,8 +102,9 @@ func (s *CompareTestSuite) TestCompare() {
 			getAfter: func(t *testing.T) *prop.Resource {
 				r := prop.NewResource(s.resourceType)
 				assert.False(t, r.Navigator().Replace(map[string]interface{}{
-					"schemas": []interface{}{"urn:ietf:params:scim:schemas:core:2.0:Group"},
-					"id":      "foobar",
+					"schemas":     []interface{}{"urn:ietf:params:scim:schemas:core:2.0:Group"},
+					"id":          "foobar",
+					"displayName": "GroupName",
 					"members": []interface{}{
 						map[string]interface{}{
 							"value":   "m2",
@@ -115,9 +122,11 @@ func (s *CompareTestSuite) TestCompare() {
 			},
 			expect: func(t *testing.T, diff *Diff) {
 				assert.Equal(t, 0, diff.CountLeft())
+				assert.Equal(t, 1, diff.CountStayed())
 				assert.Equal(t, 1, diff.CountJoined())
 				_, m2Joined := diff.joined["m2"]
 				assert.True(t, m2Joined)
+				assert.False(t, diff.IsRelevantPropertyChanged())
 			},
 		},
 		{
@@ -125,8 +134,9 @@ func (s *CompareTestSuite) TestCompare() {
 			getBefore: func(t *testing.T) *prop.Resource {
 				r := prop.NewResource(s.resourceType)
 				assert.False(t, r.Navigator().Replace(map[string]interface{}{
-					"schemas": []interface{}{"urn:ietf:params:scim:schemas:core:2.0:Group"},
-					"id":      "foobar",
+					"schemas":     []interface{}{"urn:ietf:params:scim:schemas:core:2.0:Group"},
+					"id":          "foobar",
+					"displayName": "GroupName",
 					"members": []interface{}{
 						map[string]interface{}{
 							"value":   "m1",
@@ -145,8 +155,9 @@ func (s *CompareTestSuite) TestCompare() {
 			getAfter: func(t *testing.T) *prop.Resource {
 				r := prop.NewResource(s.resourceType)
 				assert.False(t, r.Navigator().Replace(map[string]interface{}{
-					"schemas": []interface{}{"urn:ietf:params:scim:schemas:core:2.0:Group"},
-					"id":      "foobar",
+					"schemas":     []interface{}{"urn:ietf:params:scim:schemas:core:2.0:Group"},
+					"id":          "foobar",
+					"displayName": "GroupName",
 					"members": []interface{}{
 						map[string]interface{}{
 							"value":   "m2",
@@ -159,9 +170,62 @@ func (s *CompareTestSuite) TestCompare() {
 			},
 			expect: func(t *testing.T, diff *Diff) {
 				assert.Equal(t, 1, diff.CountLeft())
+				assert.Equal(t, 1, diff.CountStayed())
 				assert.Equal(t, 0, diff.CountJoined())
 				_, m1Left := diff.left["m1"]
 				assert.True(t, m1Left)
+				assert.False(t, diff.IsRelevantPropertyChanged())
+			},
+		},
+		{
+			name: "name changed",
+			getBefore: func(t *testing.T) *prop.Resource {
+				r := prop.NewResource(s.resourceType)
+				assert.False(t, r.Navigator().Replace(map[string]interface{}{
+					"schemas":     []interface{}{"urn:ietf:params:scim:schemas:core:2.0:Group"},
+					"id":          "foobar",
+					"displayName": "GroupName",
+					"members": []interface{}{
+						map[string]interface{}{
+							"value":   "m1",
+							"$ref":    "/Users/m1",
+							"display": "m1",
+						},
+						map[string]interface{}{
+							"value":   "m2",
+							"$ref":    "/Users/m2",
+							"display": "m2",
+						},
+					},
+				}).HasError())
+				return r
+			},
+			getAfter: func(t *testing.T) *prop.Resource {
+				r := prop.NewResource(s.resourceType)
+				assert.False(t, r.Navigator().Replace(map[string]interface{}{
+					"schemas":     []interface{}{"urn:ietf:params:scim:schemas:core:2.0:Group"},
+					"id":          "foobar",
+					"displayName": "GroupNameUpdated",
+					"members": []interface{}{
+						map[string]interface{}{
+							"value":   "m2",
+							"$ref":    "/Users/m2",
+							"display": "m2",
+						},
+						map[string]interface{}{
+							"value":   "m1",
+							"$ref":    "/Users/m1",
+							"display": "m1",
+						},
+					},
+				}).HasError())
+				return r
+			},
+			expect: func(t *testing.T, diff *Diff) {
+				assert.Equal(t, 0, diff.CountLeft())
+				assert.Equal(t, 2, diff.CountStayed())
+				assert.Equal(t, 0, diff.CountJoined())
+				assert.True(t, diff.IsRelevantPropertyChanged())
 			},
 		},
 	}
