@@ -66,6 +66,12 @@ func Compare(before *prop.Resource, after *prop.Resource) *Diff {
 // compareRelevantProperties compare if relevant group properties (e.g. displayName) were changed,
 // returning true in this case, or false otherwise.
 func compareRelevantProperties(before *prop.Resource, after *prop.Resource) bool {
+	// If group was created (before==nil) or deleted (after==nil), there's no relevant property
+	// change, so we return false.
+	if before == nil || after == nil {
+		return false
+	}
+
 	displayNameBefore, _ := before.RootProperty().ChildAtIndex(fieldDisplayName)
 	displayNameAfter, _ := after.RootProperty().ChildAtIndex(fieldDisplayName)
 
