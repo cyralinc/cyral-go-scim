@@ -83,7 +83,7 @@ func (arg *MongoDB) RegisterMetadata() error {
 			return nil
 		}
 
-		f, err := os.Open(path)
+		f, err := os.Open(path) // #nosec G304 -- Not a user input, but admin configuration
 		if err != nil {
 			return err
 		}

@@ -64,7 +64,7 @@ func (p *dateTimeProperty) Hash() uint64 {
 	if p.value == nil {
 		return uint64(int64(0))
 	} else {
-		return uint64((*(p.value)).Unix())
+		return uint64((*(p.value)).Unix()) // #nosec G115 -- Unix ts is always positive
 	}
 }
 

@@ -1,6 +1,7 @@
 package v2
 
 import (
+	"fmt"
 	"github.com/imulab/go-scim/pkg/v2/prop"
 	"github.com/imulab/go-scim/pkg/v2/spec"
 	"go.mongodb.org/mongo-driver/bson"
@@ -61,13 +62,21 @@ func (s *serializer) Visit(property prop.Property) error {
 
 	switch property.Attribute().Type() {
 	case spec.TypeString, spec.TypeReference, spec.TypeBinary:
-		s.serializeStringProperty(property)
+		if err := s.serializeStringProperty(property); err != nil {
+			return err
+		}
 	case spec.TypeDateTime:
-		s.serializeDateTimeProperty(property)
+		if err := s.serializeDateTimeProperty(property); err != nil {
+			return err
+		}
 	case spec.TypeInteger:
-		s.serializeIntegerProperty(property)
+		if err := s.serializeIntegerProperty(property); err != nil {
+			return err
+		}
 	case spec.TypeDecimal:
-		s.serializeDecimalProperty(property)
+		if err := s.serializeDecimalProperty(property); err != nil {
+			return err
+		}
 	case spec.TypeBoolean:
 		s.serializeBooleanProperty(property)
 	case spec.TypeComplex:
@@ -109,49 +118,68 @@ func (s *serializer) serializeMultiProperty(property prop.Property) {
 	s.addName(0x04, property.Attribute())
 }
 
-func (s *serializer) serializeStringProperty(property prop.Property) {
+func (s *serializer) serializeStringProperty(property prop.Property) error {
 	if property.IsUnassigned() {
 		s.addName(0x0A, property.Attribute())
-		return
+		return nil
 	}
 
 	s.addName(0x02, property.Attribute())
 	value := property.Raw().(string)
-	s.addInt32(int32(len(value) + 1))
+
+	// #nosec G115
+	if err := s.addInt32(int32(len(value) + 1)); err != nil {
+		return err
+	}
+
 	s.addBytes([]byte(value)...)
 	s.addBytes(0)
+	return nil
 }
 
-func (s *serializer) serializeDateTimeProperty(property prop.Property) {
+func (s *serializer) serializeDateTimeProperty(property prop.Property) error {
 	if property.IsUnassigned() {
 		s.addName(0x0A, property.Attribute())
-		return
+		return nil
 	}
 
 	s.addName(0x09, property.Attribute())
 	// mongodb stores milliseconds
 	t, _ := time.Parse(spec.ISO8601, property.Raw().(string))
-	s.addInt64(t.Unix()*1000 + int64(t.Nanosecond()/1e6))
+	if err := s.addInt64(t.Unix()*1000 + int64(t.Nanosecond()/1e6)); err != nil {
+		return err
+	}
+	return nil
 }
 
-func (s *serializer) serializeIntegerProperty(property prop.Property) {
+func (s *serializer) serializeIntegerProperty(property prop.Property) error {
 	if property.IsUnassigned() {
 		s.addName(0x0A, property.Attribute())
-		return
+		return nil
 	}
 
 	s.addName(0x12, property.Attribute())
-	s.addInt64(property.Raw().(int64))
+	if err := s.addInt64(property.Raw().(int64)); err != nil {
+		return err
+	}
+	return nil
 }
 
-func (s *serializer) serializeDecimalProperty(property prop.Property) {
+func (s *serializer) serializeDecimalProperty(property prop.Property) error {
 	if property.IsUnassigned() {
 		s.addName(0x0A, property.Attribute())
-		return
+		return nil
 	}
 
 	s.addName(0x01, property.Attribute())
-	s.addInt64(int64(math.Float64bits(property.Raw().(float64))))
+	dec := math.Float64bits(property.Raw().(float64))
+	if dec > math.MaxInt64 {
+		return fmt.Errorf("decimal value %v exceeds maximum int64 value", dec)
+	}
+	if err := s.addInt64(int64(dec)); err != nil {
+		return err
+	}
+	return nil
 }
 
 func (s *serializer) serializeBooleanProperty(property prop.Property) {
@@ -188,14 +216,14 @@ func (s *serializer) EndChildren(container prop.Property) {
 	if container.Attribute().MultiValued() {
 		s.addBytes(0)
 		start := s.current().start
-		s.setInt32(start, int32(len(s.buf)-start))
+		s.setInt32(start, int32(len(s.buf)-start)) // #nosec G115
 		s.pop()
 		s.current().index++
 	} else {
 		if !container.IsUnassigned() {
 			s.addBytes(0)
 			start := s.current().start
-			s.setInt32(start, int32(len(s.buf)-start))
+			s.setInt32(start, int32(len(s.buf)-start)) // #nosec G115
 		}
 		s.pop()
 		if len(s.stack) > 0 {
@@ -223,10 +251,14 @@ func (s *serializer) addName(kind byte, attr *spec.Attribute) {
 	s.addBytes(0)
 }
 
-func (s *serializer) addInt64(v int64) {
+func (s *serializer) addInt64(v int64) error {
+	if v < 0 {
+		return fmt.Errorf("cannot serialize negative integer %v", v)
+	}
 	u := uint64(v)
 	s.addBytes(byte(u), byte(u>>8), byte(u>>16), byte(u>>24),
 		byte(u>>32), byte(u>>40), byte(u>>48), byte(u>>56))
+	return nil
 }
 
 // Reserve 4 bytes at current position to write the length of the data in the current frame later.
@@ -236,9 +268,14 @@ func (s *serializer) reserveInt32() (pos int) {
 	return
 }
 
-func (s *serializer) addInt32(v int32) {
+func (s *serializer) addInt32(v int32) error {
+	if v < 0 {
+		return fmt.Errorf("cannot serialize negative integer %v", v)
+	}
+
 	u := uint32(v)
 	s.addBytes(byte(u), byte(u>>8), byte(u>>16), byte(u>>24))
+	return nil
 }
 
 // Add bytes to buffer

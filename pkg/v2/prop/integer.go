@@ -2,6 +2,8 @@ package prop
 
 import (
 	"fmt"
+	"math"
+
 	"github.com/imulab/go-scim/pkg/v2/spec"
 )
 
@@ -65,7 +67,17 @@ func (p *integerProperty) Hash() uint64 {
 		// before comparing value hashes
 		return uint64(int64(0))
 	} else {
-		return uint64(*(p.value))
+		v := *(p.value)
+		// Let's compute the hash by mapping int64 range to uint64 range.
+		if v >= 0 {
+			// v is non-negative
+			// uint64 range this if block covers: 0 to 9,223,372,036,854,775,807
+			return uint64(v)
+		} else {
+			// v is negative
+			// uint64 range this else block covers: 9,223,372,036,854,775,808 to 18,446,744,073,709,551,615
+			return uint64(math.MaxInt64) + uint64(-1*v) // #nosec G115 -- These if else blocks are ensuring there is no integer overflow.
+		}
 	}
 }
 
@@ -168,7 +180,10 @@ func (p *integerProperty) tryInt64(value interface{}) (int64, error) {
 	case int:
 		return int64(v), nil
 	case uint64:
-		return int64(v), nil
+		if v > math.MaxInt64 {
+			return 0, fmt.Errorf("%w: value is incompatible with '%s'", spec.ErrInvalidValue, p.attr.Path())
+		}
+		return int64(v), nil // #nosec G115 -- No integer overflow guarantee by the validation above
 	case uint32:
 		return int64(v), nil
 	case uint16:
@@ -176,7 +191,10 @@ func (p *integerProperty) tryInt64(value interface{}) (int64, error) {
 	case uint8:
 		return int64(v), nil
 	case uint:
-		return int64(v), nil
+		if v > math.MaxUint64 {
+			return 0, fmt.Errorf("%w: value is incompatible with '%s'", spec.ErrInvalidValue, p.attr.Path())
+		}
+		return int64(v), nil // #nosec G115 -- No integer overflow guarantee by the validation above
 	default:
 		return 0, fmt.Errorf("%w: value is incompatible with '%s'", spec.ErrInvalidValue, p.attr.Path())
 	}
