@@ -3,6 +3,8 @@ package v2
 import (
 	"context"
 	"fmt"
+	"strconv"
+
 	"github.com/imulab/go-scim/pkg/v2/crud"
 	"github.com/imulab/go-scim/pkg/v2/crud/expr"
 	"github.com/imulab/go-scim/pkg/v2/db"
@@ -11,7 +13,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"strconv"
 )
 
 // Create a db.DB implementation that persists data in MongoDB. This implementation supports one-to-one correspondence

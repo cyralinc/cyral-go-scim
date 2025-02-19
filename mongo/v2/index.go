@@ -3,11 +3,12 @@ package v2
 import (
 	"context"
 	"fmt"
+	"strings"
+
 	"github.com/imulab/go-scim/pkg/v2/spec"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"strings"
 )
 
 const (

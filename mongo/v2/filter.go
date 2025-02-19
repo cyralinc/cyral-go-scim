@@ -2,13 +2,14 @@ package v2
 
 import (
 	"fmt"
+	"strconv"
+	"strings"
+	"time"
+
 	"github.com/imulab/go-scim/pkg/v2/crud/expr"
 	"github.com/imulab/go-scim/pkg/v2/spec"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"strconv"
-	"strings"
-	"time"
 )
 
 // Contrary to the main theme in this package, the methods in this file transforms SCIM filter to an
