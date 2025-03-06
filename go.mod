@@ -1,6 +1,7 @@
 module github.com/imulab/go-scim
 
 go 1.22.7
+toolchain go1.23.7
 
 require (
 	github.com/cenkalti/backoff v2.2.1+incompatible
@@ -17,7 +18,7 @@ require (
 	github.com/stretchr/testify v1.10.0
 	github.com/urfave/cli/v2 v2.27.5
 	go.mongodb.org/mongo-driver v1.17.1
-	golang.org/x/sync v0.10.0
+	golang.org/x/sync v0.12.0
 )
 
 require (
