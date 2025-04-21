@@ -44,6 +44,4 @@ require (
 
 replace github.com/imulab/go-scim/pkg/v2 => ../../pkg/v2
 
-go 1.23.0
-
-toolchain go1.24.2
+go 1.24
