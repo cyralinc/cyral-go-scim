@@ -1,5 +1,7 @@
 module github.com/imulab/go-scim/mongo/v2
 
+go 1.24
+
 require (
 	github.com/imulab/go-scim/pkg/v2 v2.0.0
 	github.com/ory/dockertest v3.3.5+incompatible
@@ -44,4 +46,3 @@ require (
 
 replace github.com/imulab/go-scim/pkg/v2 => ../../pkg/v2
 
-go 1.24
