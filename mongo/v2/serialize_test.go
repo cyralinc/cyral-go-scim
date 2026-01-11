@@ -2,15 +2,16 @@ package v2
 
 import (
 	"encoding/json"
+	"io/ioutil"
+	"os"
+	"testing"
+
 	"github.com/imulab/go-scim/pkg/v2/prop"
 	"github.com/imulab/go-scim/pkg/v2/spec"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
 	"go.mongodb.org/mongo-driver/bson"
-	"io/ioutil"
-	"os"
-	"testing"
 )
 
 func TestSerialize(t *testing.T) {

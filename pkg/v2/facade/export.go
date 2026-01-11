@@ -23,7 +23,7 @@ func Export(obj interface{}, resourceType *spec.ResourceType) (*prop.Resource, e
 	}
 
 	exp := exporter{}
-	forEachMapping(reflect.ValueOf(obj), func(field reflect.Value, path string) error {
+	_ = forEachMapping(reflect.ValueOf(obj), func(field reflect.Value, path string) error {
 		return exp.assign(r, field, path)
 	})
 

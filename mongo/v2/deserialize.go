@@ -2,12 +2,13 @@ package v2
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/imulab/go-scim/pkg/v2/prop"
 	"github.com/imulab/go-scim/pkg/v2/spec"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/bsonrw"
 	"go.mongodb.org/mongo-driver/bson/bsontype"
-	"time"
 )
 
 // Construct a new resource unmarshaler, which could be feed to the unmarshal mechanism of the mongo driver.

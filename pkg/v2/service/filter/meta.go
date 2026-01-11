@@ -2,14 +2,15 @@ package filter
 
 import (
 	"context"
-	"crypto/sha1"
+	"crypto/sha1" // #nosec G505 -- Not security relevant, i.e., not used in encryption.
 	"encoding/binary"
 	"fmt"
-	"github.com/imulab/go-scim/pkg/v2/prop"
-	"github.com/imulab/go-scim/pkg/v2/spec"
 	"math/rand"
 	"strings"
 	"time"
+
+	"github.com/imulab/go-scim/pkg/v2/prop"
+	"github.com/imulab/go-scim/pkg/v2/spec"
 )
 
 // MetaFilter returns a ByResource filter that assigns and updates the meta core attribute.
@@ -117,11 +118,11 @@ func (f metaFilter) assignNewVersion(nav prop.Navigator, resource *prop.Resource
 		return fmt.Errorf("%w: empty id", spec.ErrInternal)
 	}
 
-	ts := rand.Uint64()
+	ts := rand.Uint64() // #nosec G404 -- Not security relevant, i.e., not used in encryption.
 	tsBuf := make([]byte, 8)
 	binary.LittleEndian.PutUint64(tsBuf, ts)
 
-	sha := sha1.New()
+	sha := sha1.New() // #nosec G401 -- Not security relevant, i.e., not used in encryption.
 	sha.Write([]byte(id))
 	sha.Write(tsBuf)
 	sum := sha.Sum(nil)

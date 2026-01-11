@@ -1,3 +1,4 @@
+//go:build integration
 // +build integration
 
 package v2
@@ -6,6 +7,13 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"os"
+	"os/signal"
+	"strconv"
+	"syscall"
+	"testing"
+
 	"github.com/imulab/go-scim/pkg/v2/crud"
 	"github.com/imulab/go-scim/pkg/v2/db"
 	scimjson "github.com/imulab/go-scim/pkg/v2/json"
@@ -18,12 +26,6 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
-	"io/ioutil"
-	"os"
-	"os/signal"
-	"strconv"
-	"syscall"
-	"testing"
 )
 
 var (

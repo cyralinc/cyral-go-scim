@@ -2,14 +2,15 @@ package v2
 
 import (
 	"encoding/json"
+	"io/ioutil"
+	"os"
+	"testing"
+
 	"github.com/imulab/go-scim/pkg/v2/prop"
 	"github.com/imulab/go-scim/pkg/v2/spec"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
-	"io/ioutil"
-	"os"
-	"testing"
 )
 
 func TestDeserialize(t *testing.T) {

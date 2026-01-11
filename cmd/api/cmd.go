@@ -5,6 +5,7 @@ import (
 	"github.com/julienschmidt/httprouter"
 	"github.com/urfave/cli/v2"
 	"net/http"
+	"time"
 )
 
 // Command returns a cli.Command that starts an HTTP router to serve the SCIM API.
@@ -49,7 +50,14 @@ func Command() *cli.Command {
 				"port": args.httpPort,
 			}).Msg("Listening for incoming requests.")
 
-			return http.ListenAndServe(fmt.Sprintf(":%d", args.httpPort), router)
+			httpServer := &http.Server{
+				Addr:              fmt.Sprintf(":%d", args.httpPort),
+				Handler:           router,
+				ReadTimeout:       10 * time.Second,
+				ReadHeaderTimeout: 10 * time.Second,
+			}
+
+			return httpServer.ListenAndServe()
 		},
 	}
 }

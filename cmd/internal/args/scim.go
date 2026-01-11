@@ -50,7 +50,7 @@ func (arg *Scim) RegisterSchemas() error {
 			return nil
 		}
 
-		f, err := os.Open(path)
+		f, err := os.Open(path) // #nosec G304 -- Not a user input, but admin configuration
 		if err != nil {
 			return err
 		}
@@ -79,7 +79,7 @@ func (arg *Scim) ParseGroupResourceType() (*spec.ResourceType, error) {
 }
 
 func (arg *Scim) parseResourceType(path string) (*spec.ResourceType, error) {
-	f, err := os.Open(path)
+	f, err := os.Open(path) // #nosec G304 -- Not a user input, but admin configuration
 	if err != nil {
 		return nil, err
 	}
