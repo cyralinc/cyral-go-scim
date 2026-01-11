@@ -1,0 +1,22 @@
+name: Check and build
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+  push:
+    branches:
+      - main
+      - release/**
+    tags:
+      - 'v*'
+
+jobs:
+  check:
+    name: Check
+    permissions: write-all
+    secrets: inherit
+    uses: cyralinc/devops-github-workflows/.github/workflows/reusable-check-required.yaml@main
